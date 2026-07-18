@@ -11,7 +11,7 @@ Qt 5.15 + C++17 企业级桌面计算器（Widgets），满足课程作业《计
 | 语言 / 标准 | C++17 |
 | UI | Qt 5.15 Widgets |
 | 构建 | CMake 3.10+，Visual Studio 2019 (x64) |
-| 依赖 | 旁路 `thirdparty_install/vcpkg` |
+| 依赖 | `thirdparty_install/vcpkg` |
 | 单测 | GoogleTest（目标 `test_kcalc`） |
 
 ## 功能清单
@@ -180,70 +180,6 @@ C / CE 清除错误态后可继续输入。
 | **Factory（工厂）** | `KModeFactory::create(id)`；换算窗格 `KConverterPane::createLengthPane/WeightPane` | 按 id 创建策略实例，导航与实现解耦 |
 | **Observer（观察者）** | Qt signal/slot：`displayChanged` / `errorOccurred` / `historyChanged`；`KThemeManager::themeChanged` | Controller / 主题变更通知 UI |
 
-
-```mermaid
-classDiagram
-    class KMainWindow {
-        +applyCalcMode(id)
-        -m_controller
-        -m_activeMode
-        -m_themeManager
-    }
-    class KCalculatorController {
-        +handleCommand(KInputCommand)
-        +signal displayChanged
-        +signal errorOccurred
-        +signal historyChanged
-    }
-    class KConverterController {
-        +configureAsLength()
-        +configureAsWeight()
-    }
-    class KICalcMode {
-        <<interface>>
-        +id()
-        +uiKind()
-        +showsMemoryRow()
-        +preferredWindowSize()
-        +clearsEngineOnSwitchFrom()
-    }
-    class KModeFactory {
-        +create(id)$
-        +availableModeIds()$
-    }
-    class KCalculatorEngine {
-        +evaluate(expr)
-    }
-    class KTokenizer
-    class KValidator
-    class KMemoryStore
-    class KHistoryStore
-    class KResult~T~
-    class KErrorObject {
-        +KErrorCode code
-        +string message
-    }
-    class KThemeManager {
-        +signal themeChanged
-    }
-
-    KMainWindow --> KCalculatorController
-    KMainWindow --> KConverterController
-    KMainWindow --> KICalcMode
-    KMainWindow --> KThemeManager
-    KModeFactory ..> KICalcMode : creates
-    KStandardMode ..|> KICalcMode
-    KScientificMode ..|> KICalcMode
-    KLengthMode ..|> KICalcMode
-    KWeightMode ..|> KICalcMode
-    KCalculatorController --> KCalculatorEngine
-    KCalculatorController --> KMemoryStore
-    KCalculatorController --> KHistoryStore
-    KCalculatorEngine --> KTokenizer
-    KCalculatorEngine --> KValidator
-    KCalculatorEngine --> KResult~T~
-    KResult~T~ --> KErrorObject
-```
 
 ### 扩展点
 
