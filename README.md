@@ -9,8 +9,8 @@ Qt 5.15 + C++17 企业级桌面计算器（Widgets），满足课程作业《计
 | 项 | 说明 |
 |----|------|
 | 语言 / 标准 | C++17 |
-| UI | Qt 5.15 Widgets |
-| 构建 | CMake 3.10+，Visual Studio 2019 (x64) |
+| UI | Qt 5.15 |
+| 支持平台 | Windows，VMware（ubantu） |
 | 依赖 | `thirdparty_install/vcpkg` |
 | 单测 | GoogleTest（目标 `test_kcalc`） |
 
