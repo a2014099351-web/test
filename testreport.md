@@ -100,31 +100,8 @@ build\bin\Debug\test_kcalc.exe
 工具：[OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage) 0.9.9.0  
 被测程序：`build\bin\Debug\test_kcalc.exe`（须带 PDB）  
 统计范围：`src\` + `include\`（排除 autogen / moc）  
-报告产出：`coverage\html\index.html`、`coverage\cobertura.xml`（已加入 `.gitignore`）
 
-### 4.1 复现步骤
-
-```bat
-cmake --build build --config Debug --target test_kcalc
-run_coverage.bat
-```
-
-或手动：
-
-```bat
-"C:\Program Files\OpenCppCoverage\OpenCppCoverage.exe" ^
-  --sources "kcalculator\src" ^
-  --sources "kcalculator\include" ^
-  --excluded_sources "autogen" ^
-  --excluded_sources "moc_" ^
-  --modules "test_kcalc" ^
-  --export_type "html:coverage\html" ^
-  --export_type "cobertura:coverage\cobertura.xml" ^
-  --working_dir "build\bin\Debug" ^
-  -- "build\bin\Debug\test_kcalc.exe"
-```
-
-### 4.2 总体结果（2026-07-18）
+### 4.1 总体结果（2026-07-18）
 
 | 指标 | 数值 |
 |------|------|
@@ -135,7 +112,7 @@ run_coverage.bat
 
 说明：`test_kcalc` 只链接 core + controller，**不含** Widgets UI（`ui/`），因此覆盖率反映的是可单测逻辑层，而非整个 GUI。
 
-### 4.3 主要源文件明细
+### 4.2 主要源文件明细
 
 | 文件 | 覆盖行 | 总行 | 覆盖率 |
 |------|--------|------|--------|
@@ -159,13 +136,11 @@ run_coverage.bat
 | `src/controller` | 643 / 798 | **80.6%** |
 | 合计（含头文件可执行行） | 1332 / 1534 | **86.8%** |
 
-### 4.4 未覆盖原因（摘要）
+### 4.3 未覆盖原因（摘要）
 
 - **UI 层**（`ui/`、皮肤、快捷键过滤）未链入 `test_kcalc`，不在本次统计内。
 - `calculator_controller.cpp` 约 21% 未覆盖：科学模式部分冷路径、少用命令组合等。
 - `memory_store.cpp` 约 24.5% 未覆盖：多槽位边角 / 少用 API。
-
-详细行级高亮见 `coverage\html\index.html`。
 
 ---
 
