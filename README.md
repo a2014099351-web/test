@@ -178,10 +178,8 @@ C / CE 清除错误态后可继续输入。
 | **MVC** | View=`KMainWindow`；Controller=`KCalculatorController` / `KConverterController`；Model=`kcalc_core` | UI 与算法分离，便于单测与换皮 |
 | **Strategy（策略）** | `KICalcMode` ← `KStandardMode` / `KScientificMode` / `KLengthMode` / `KWeightMode` | 模式差异（显隐、尺寸、是否清引擎）可插拔，避免巨型 `if/else` |
 | **Factory（工厂）** | `KModeFactory::create(id)`；换算窗格 `KConverterPane::createLengthPane/WeightPane` | 按 id 创建策略实例，导航与实现解耦 |
-| **Observer（观察者）** | Qt signal/slot：`displayChanged` / `errorOccurred` / `historyChanged`；`KThemeManager::themeChanged` | Controller / 主题变更通知 UI，无直接互相 include 控件细节 |
+| **Observer（观察者）** | Qt signal/slot：`displayChanged` / `errorOccurred` / `historyChanged`；`KThemeManager::themeChanged` | Controller / 主题变更通知 UI |
 
-
-### 主要类关系
 
 ```mermaid
 classDiagram
@@ -282,12 +280,7 @@ build\bin\Debug\test_kcalc.exe
 
 行覆盖率（需已安装 [OpenCppCoverage](https://github.com/OpenCppCoverage/OpenCppCoverage)）：
 
-```bat
-run_coverage.bat
-```
-
-报告输出到 `coverage\html\index.html`（当前 Debug 全量约 **86.8%** 行覆盖，详见 [`testreport.md`](testreport.md)）。  
-gtest 说明见 [`test/gtest/README.md`](test/gtest/README.md)。
+当前 Debug 全量约 **86.8%** 行覆盖，详见 [`testreport.md`](testreport.md)。  
 
 ## 交付对照
 
