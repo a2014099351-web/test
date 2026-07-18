@@ -99,7 +99,7 @@ Qt 5.15 + C++17 企业级桌面计算器（Widgets），满足课程作业《计
 
 1. **UI 与业务分离**：View 不求值；算法与状态机在 Controller / Core。
 2. **可扩展模式**：标准 / 科学 / 换算共用导航骨架，差异用策略表达。
-3. **可测试核心**：`kcalc_core` + Controller 可被 gtest 直接驱动（无需拉起主窗口）。
+3. **可测试核心**：`kcalc_core` + Controller 可被 gtest 直接驱动。
 4. **可配置外观**：皮肤 / 图标包与业务代码解耦，按资源目录切换。
 
 ### 分层架构（MVC）
@@ -179,13 +179,7 @@ C / CE 清除错误态后可继续输入。
 | **Strategy（策略）** | `KICalcMode` ← `KStandardMode` / `KScientificMode` / `KLengthMode` / `KWeightMode` | 模式差异（显隐、尺寸、是否清引擎）可插拔，避免巨型 `if/else` |
 | **Factory（工厂）** | `KModeFactory::create(id)`；换算窗格 `KConverterPane::createLengthPane/WeightPane` | 按 id 创建策略实例，导航与实现解耦 |
 | **Observer（观察者）** | Qt signal/slot：`displayChanged` / `errorOccurred` / `historyChanged`；`KThemeManager::themeChanged` | Controller / 主题变更通知 UI，无直接互相 include 控件细节 |
-| **Command（命令，轻量）** | `KInputCommand` + `handleCommand()`；键区 tag / 键盘 `mapKeyToCommand` | 按钮与快捷键统一入口，语义一致 |
-| **Pipeline（流水线）** | `evaluate`：Tokenizer → Validator → 求值 | 校验与计算分阶段，边界错误可定位 |
-| **Result 对象** | `KResult<T>` + `KErrorObject` | 失败可携带错误码，禁止只靠 `qDebug` |
-| **策略注入（换算）** | `KConverterController` 的 Convert/Format/Parse 函数指针，由 Length/Weight 配置注入 | 一套控制器服务两种换算表 |
-| **Facade（外观，局部）** | `KMainWindow` 委托 `KWindowChrome` / `KNavSideHost` / `KCustomizeUi` | 主窗口编排子系统，避免单文件膨胀 |
 
-未使用 Singleton：`KThemeManager` / `KCustomizeStore` 挂在主窗口对象树，生命周期清晰。
 
 ### 主要类关系
 
